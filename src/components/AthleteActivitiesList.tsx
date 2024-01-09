@@ -6,111 +6,64 @@ import {
   TableHead,
   TableHeaderCell,
   TableBody,
-  BadgeDelta
+  Badge,
+  Title
 } from '@tremor/react'
-
-const salesPeople = [
-  {
-    name: 'Peter Doe',
-    leads: 45,
-    sales: '1,000,000',
-    quota: '1,200,000',
-    variance: 'low',
-    region: 'Region A',
-    delta: 'overperforming',
-    deltaType: 'moderateIncrease'
-  },
-  {
-    name: 'Lena Whitehouse',
-    leads: 35,
-    sales: '900,000',
-    quota: '1,000,000',
-    variance: 'low',
-    region: 'Region B',
-    delta: 'average',
-    deltaType: 'unchanged'
-  },
-  {
-    name: 'Phil Less',
-    leads: 52,
-    sales: '930,000',
-    quota: '1,000,000',
-    variance: 'medium',
-    region: 'Region C',
-    delta: 'underperforming',
-    deltaType: 'moderateDecrease'
-  },
-  {
-    name: 'John Camper',
-    leads: 22,
-    sales: '390,000',
-    quota: '250,000',
-    variance: 'low',
-    region: 'Region A',
-    delta: 'overperforming',
-    deltaType: 'increase'
-  },
-  {
-    name: 'Max Balmoore',
-    leads: 49,
-    sales: '860,000',
-    quota: '750,000',
-    variance: 'low',
-    region: 'Region B',
-    delta: 'overperforming',
-    deltaType: 'increase'
-  },
-  {
-    name: 'Peter Moore',
-    leads: 82,
-    sales: '1,460,000',
-    quota: '1,500,000',
-    variance: 'low',
-    region: 'Region A',
-    delta: 'average',
-    deltaType: 'unchanged'
-  },
-  {
-    name: 'Joe Sachs',
-    leads: 49,
-    sales: '1,230,000',
-    quota: '1,800,000',
-    variance: 'medium',
-    region: 'Region B',
-    delta: 'underperforming',
-    deltaType: 'moderateDecrease'
-  }
-]
+import useActivities from '../hooks/useActivities'
 
 export default function AthleteActivitiesList() {
+  const { activities } = useActivities()
   return (
     <Card>
+      <Title className='flex px-4'>
+        Activities
+        <Badge style={{ marginLeft: '8px' }} color={'blue'}>
+          {activities.length}
+        </Badge>
+        <button className='ml-auto'>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
+            strokeWidth={1.5}
+            stroke='currentColor'
+            className='w-6 h-6'
+          >
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              d='M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99'
+            />
+          </svg>
+        </button>
+      </Title>
       <Table>
         <TableHead>
           <TableRow>
             <TableHeaderCell>Name</TableHeaderCell>
-            <TableHeaderCell className='text-right'>Leads</TableHeaderCell>
-            <TableHeaderCell className='text-right'>Sales ($)</TableHeaderCell>
-            <TableHeaderCell className='text-right'>Quota ($)</TableHeaderCell>
-            <TableHeaderCell className='text-right'>Variance</TableHeaderCell>
-            <TableHeaderCell className='text-right'>Region</TableHeaderCell>
-            <TableHeaderCell className='text-right'>Status</TableHeaderCell>
+            <TableHeaderCell className='text-right'>Date</TableHeaderCell>
+            <TableHeaderCell className='text-right'>Distance</TableHeaderCell>
+            <TableHeaderCell className='text-right'>time</TableHeaderCell>
+            <TableHeaderCell className='text-right'>
+              Elevation Gain
+            </TableHeaderCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {salesPeople.map((item) => (
-            <TableRow key={item.name}>
+          {activities.map((item) => (
+            <TableRow key={item.id}>
               <TableCell>{item.name}</TableCell>
-              <TableCell className='text-right'>{item.leads}</TableCell>
-              <TableCell className='text-right'>{item.sales}</TableCell>
-              <TableCell className='text-right'>{item.quota}</TableCell>
-              <TableCell className='text-right'>{item.variance}</TableCell>
-              <TableCell className='text-right'>{item.region}</TableCell>
+              <TableCell className='text-right'>{item.start_date}</TableCell>
+              <TableCell className='text-right'>{item.distance}</TableCell>
+              <TableCell className='text-right'>{item.elapsed_time}</TableCell>
               <TableCell className='text-right'>
-                <BadgeDelta deltaType={item.deltaType} size='xs'>
-                  {item.delta}
-                </BadgeDelta>
+                {item.total_elevation_gain}
               </TableCell>
+              {/* <TableCell className='text-right'>
+                <Badge deltaType={item.deltaType} size='xs'>
+                  {item.delta}
+                </Badge>
+              </TableCell> */}
             </TableRow>
           ))}
         </TableBody>
